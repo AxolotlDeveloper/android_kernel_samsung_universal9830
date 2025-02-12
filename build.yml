@@ -1,0 +1,26 @@
+name: Compile Android Kernel
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Set up build environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential bc flex bison libssl-dev libelf-dev
+
+    - name: Compile kernel
+      run: |
+        make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
